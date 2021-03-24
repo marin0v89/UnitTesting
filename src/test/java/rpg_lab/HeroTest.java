@@ -1,54 +1,24 @@
 package rpg_lab;
 
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.nio.file.Watchable;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class HeroTest {
     @Test
     public void testHeroGainsExperienceWhenTargetIsKilled() {
-        Weapon weapon = new Weapon() {
 
-            @Override
-            public int getAttackPoints() {
-                return 0;
-            }
+        Weapon weapon = mock(Weapon.class);
+        Target target = mock(Target.class);
 
-            @Override
-            public int getDurabilityPoints() {
-                return 0;
-            }
-
-            @Override
-            public void attack(Target target) {
-
-            }
-        };
-
-        Target target = new Target() {
-            @Override
-            public int getHealth() {
-                return 0;
-            }
-
-            @Override
-            public void takeAttack(int attackPoints) {
-
-            }
-
-            @Override
-            public int giveExperience() {
-                return 13;
-            }
-
-            @Override
-            public boolean isDead() {
-                return true;
-            }
-        };
         Hero hero = new Hero("Java-Wizard", weapon);
+        when(target.isDead()).thenReturn(true);
+        when(target.giveExperience()).thenReturn(13);
         hero.attack(target);
         assertEquals(13, hero.getExperience());
     }
